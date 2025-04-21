@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
 import RestaurantCard from './RestaurantCard'
+import useFetchGitUser from '../../utils/useFetchGitUser'
 
 
 const Body = () => {
     const [resList, setList] = useState([])
+    const gitUser = useFetchGitUser()
+    console.log('mygitUser')
+    console.log(gitUser)
     useEffect(()=>{
        fetchData()},[]);
 

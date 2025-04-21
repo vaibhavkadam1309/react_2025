@@ -1,8 +1,10 @@
-import React from 'react'
+import React,{Suspense} from 'react'
 import ReactDOM from 'react-dom/client';
 import Body from './src/components/Body'
-import About from './src/components/About'
+// import About from './src/components/About'
+const About = React.lazy(()=>import('./src/components/About'))
 import Header from './src/components/Header';
+import {Link,Outlet} from 'react-router-dom'
 import {
     createBrowserRouter,
     RouterProvider,
@@ -12,19 +14,21 @@ const AppCmp = ()=>{
     return  (
         <div>
     <Header></Header>    
-    <Body></Body>
+   <Outlet></Outlet> 
+   <Body></Body>
     </div>)
 } 
 
 const appRouter = createBrowserRouter([{
     path : '/',
     element : <AppCmp></AppCmp>,
+    children : [{
+        path : '/about',
+        element : <Suspense fallback={<h1>Loading ....</h1>}><About></About></Suspense>
+    }],
     errorElement : <h1>Something went wrong</h1>
 },
-{
-    path : '/about',
-    element : <About></About>
-}
+
 ])
 let rootElem = ReactDOM.createRoot(document.getElementById('root'))
 rootElem.render(<RouterProvider router = {appRouter}></RouterProvider>)
